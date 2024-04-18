@@ -1,5 +1,5 @@
 function createMap(earthquakes) {
-    // Create the tile layer that will be the background of our map.
+    // Create the tile layer.
     let streetmap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });
@@ -21,7 +21,7 @@ function createMap(earthquakes) {
         layers: [streetmap, earthquakes]
     });
 
-    // Create a layer control, and pass it baseMaps and overlayMaps. Add the layer control to the map.
+    // Create a layer control.
     L.control.layers(baseMaps, overlayMaps, {
         collapsed: false
     }).addTo(map);
@@ -83,7 +83,7 @@ function createMarkers(response) {
             markerColor = "#8B0000"; // Deep
         }
 
-        // For each earthquake, create a circle marker, and bind a popup with earthquake details.
+        // Create a circle marker, and bind a popup with earthquake details.
         let earthquakeMarker = L.circleMarker([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]], {
             radius: markerSize,
             fillColor: markerColor,
@@ -97,9 +97,9 @@ function createMarkers(response) {
         earthquakeMarkers.push(earthquakeMarker);
     });
 
-    // Create a layer group that's made from the earthquake markers array, and pass it to the createMap function.
+    // Create a layer group.
     createMap(L.layerGroup(earthquakeMarkers));
 }
 
-// Perform an API call to the USGS Earthquake API to get the earthquake data. Call createMarkers when it completes.
+// Perform an API call.
 d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson").then(createMarkers);
